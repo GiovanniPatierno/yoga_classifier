@@ -1,9 +1,11 @@
 import cv2
-import numpy as np
 import mahotas
-# funzione per l'estrazione delle features, chiamato nel file 'classifier.py'
+import numpy as np
 from matplotlib.pyplot import hist
-import data_augmentation
+from matplotlib import pyplot as plt
+import seaborn as sns
+import pandas as pd
+from sklearn.metrics import confusion_matrix
 
 
 def extract(img):
@@ -11,13 +13,7 @@ def extract(img):
     f_haralick = fd_haralick(img)
     f_hog = fd_hog(img, 16)
 
-    img_vert_flip = data_augmentation.vertical_flip(img)
-    features_vertical_hog = fd_hog(img_vert_flip, 16)
-
-    img_hori_flip = data_augmentation.horizontal_flip(img)
-    features_horizontal_hog = fd_hog(img_hori_flip, 16)
-
-    glob_features_b = np.hstack([f_moments,  f_hog, f_haralick])
+    glob_features_b = np.hstack([f_hog, f_moments, f_haralick])
     return glob_features_b
 
 # HuMoments è un metodo della libreria open-cv che permette di estrarre la forma degli oggetti presenti nell'immagine
@@ -25,6 +21,14 @@ def fd_hu_moments(image_):
     image_ = cv2.cvtColor(image_, cv2.COLOR_BGR2GRAY)
     feature = cv2.HuMoments(cv2.moments(image_)).flatten()
     return feature
+
+# Haralick Texture viene utilizzato per quantificare un'immagine in base alla texture
+def fd_haralick(image_):
+    # converto l'immagine in una grayscale
+    gray = cv2.cvtColor(image_, cv2.COLOR_BGR2GRAY)
+    # estraggo l'haralick features
+    haralick = mahotas.features.haralick(gray).mean(axis=0)
+    return haralick
 
 def fd_hog(image_, bins):
     dx = cv2.Sobel(image_, cv2.CV_32F, 1, 0)
@@ -47,9 +51,22 @@ def fd_hog(image_, bins):
 
     return np.hstack(histogram)
 
-def fd_haralick(image_):
-    # converto l'immagine in una grayscale
-    gray = cv2.cvtColor(image_, cv2.COLOR_BGR2GRAY)
-    # estraggo l'haralick features
-    haralick = mahotas.features.haralick(gray).mean(axis=0)
-    return haralick
+def cnmatrix(y, test_Y, rfl_prediction):
+    # Plot non-normalized confusion matrix
+    target_labels = np.unique(y)
+    matrix = confusion_matrix(test_Y, rfl_prediction)
+    plt.figure(figsize=(6, 4))
+    sns.heatmap(matrix,
+                cmap='coolwarm',
+                linecolor='white',
+                linewidths=1,
+                xticklabels=[target for target in target_labels],
+                yticklabels=[target for target in target_labels],
+                annot=True,
+                fmt='d')
+    plt.title('Confusion Matrix RFC')
+    plt.ylabel('True Label')
+    plt.xlabel('Predicted Label')
+    plt.show()
+
+
