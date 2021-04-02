@@ -51,22 +51,5 @@ def fd_hog(image_, bins):
 
     return np.hstack(histogram)
 
-def cnmatrix(y, test_Y, rfl_prediction):
-    # Plot non-normalized confusion matrix
-    target_labels = np.unique(y)
-    matrix = confusion_matrix(test_Y, rfl_prediction)
-    plt.figure(figsize=(6, 4))
-    sns.heatmap(matrix,
-                cmap='coolwarm',
-                linecolor='white',
-                linewidths=1,
-                xticklabels=[target for target in target_labels],
-                yticklabels=[target for target in target_labels],
-                annot=True,
-                fmt='d')
-    plt.title('Confusion Matrix RFC')
-    plt.ylabel('True Label')
-    plt.xlabel('Predicted Label')
-    plt.show()
 
 

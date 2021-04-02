@@ -21,24 +21,12 @@ from sklearn.neighbors import KNeighborsClassifier
 import seaborn as sns
 import Cnn_function
 from keras.utils.np_utils import to_categorical
-
-def Psition_Recognize_app(imgpath):
-    img = cv2.imread(imgpath)
-    img = cv2.resize(img, (150, 150))
-    glob_features_p = np.array(extract_feature.extract(img))
-    predicted_vector = model.predict(glob_features_p)
-    cv2.putText(img, 'Predizione posizione: {}'.format(position_names[predicted_vector]), (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8,
-                (255, 255, 0), 2)
+import utility
 
 
-    cv2.imshow("Predizione ", img)
-    print("Questa posizione sembra essere:  ")
-    print(position_names[predicted_vector])
-    cv2.waitKey(0)
 
-
-TRAIN_DIR = "C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\pyton yoga classificator\\training_set"
-TEST_DIR = "C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\pyton yoga classificator\\test_set"
+TRAIN_DIR = "C:\\Users\\pasquale\\PycharmProjects\\yoga_classifier\\datasets_file\\training_set"
+TEST_DIR = "C:\\Users\\pasquale\PycharmProjects\\yoga_classifier\\datasets_file\\test_set"
 train_labels = os.listdir(TRAIN_DIR)
 test_labels = os.listdir(TEST_DIR)
 resize = 400
@@ -46,9 +34,6 @@ X = []
 y = []
 x = []
 imgsize = 150
-
-position_names = [item[10:-1] for item in sorted(glob("dogImages/train/*/"))]
-position_names = np.array(position_names)
 
 
 for training_name in train_labels:
@@ -74,6 +59,7 @@ X = np.array(X)
 #y = np.array(y)
 X = X/255
 
+#Label Encoding
 le= LabelEncoder()
 y = le.fit_transform(y)
 
@@ -116,44 +102,25 @@ print("Accuracy KNN:",metrics.accuracy_score(y_test, KNN_pred))
 
 
 #CNN
-
-
 #Normalizing the data
 x = np.array(x)
 x = x/255
 y = to_categorical(y,10)
 
 x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3,random_state=1,stratify=y)
-print(x.shape)
+
+#creo modello cnn
 model = Cnn_function.load_model()
 optimizer = tf.keras.optimizers.Adam(learning_rate=0.0001)
 model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
-#history = model.fit(x_train,y_train,validation_split=0.2,epochs=150)
-#model.save_weights("h.5")
 model.load_weights("h.5")
 model.evaluate(x_test,y_test)
 predict = model.predict(x).argmax(axis=1)
-print(y_test)
 
-#Cnn_function.plot_accuracy(history)
-#Cnn_function.plot_losses(history)
+#visualizzo la matrice di confusione
+utility.matrixcfn(z,predict,y)
 
-#visualizzo la confuzion matrix
-matrix = metrics.confusion_matrix(y.argmax(axis=1), predict)
-target_labels = np.unique(z)
-plt.figure(figsize=(6, 4))
-sns.heatmap(matrix,
-            cmap='coolwarm',
-            linecolor='white',
-            linewidths=1,
-            xticklabels=[target for target in target_labels],
-            yticklabels=[target for target in target_labels],
-            annot=True,
-            fmt='d')
-plt.title('Confusion Matrix RFC')
-plt.ylabel('True Label')
-plt.xlabel('Predicted Label')
-plt.show()
-
-Psition_Recognize_app("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\pyton yoga classificator\\test_set\\bridge\\File1.jpg")
+#visualizzo predizione
+pose_name = np.unique(z)
+utility.test('C:\\Users\\pasquale\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg',model,pose_name)
 
