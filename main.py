@@ -25,8 +25,8 @@ import utility
 
 
 
-TRAIN_DIR = "C:\\Users\\pasquale\\PycharmProjects\\yoga_classifier\\datasets_file\\training_set"
-TEST_DIR = "C:\\Users\\pasquale\PycharmProjects\\yoga_classifier\\datasets_file\\test_set"
+TRAIN_DIR = "C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\training_set"
+TEST_DIR = "C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set"
 train_labels = os.listdir(TRAIN_DIR)
 test_labels = os.listdir(TEST_DIR)
 resize = 400
@@ -70,6 +70,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 gnb = GaussianNB()                 #
 gnb.fit(X_train, y_train)          #
 y_pred = gnb.predict(X_test)       #
+print(X_test.shape)
 ####################################
 
 #creo il modello ExtraTreeClassifier e lo addestro()
@@ -118,9 +119,23 @@ model.evaluate(x_test,y_test)
 predict = model.predict(x).argmax(axis=1)
 
 #visualizzo la matrice di confusione
-utility.matrixcfn(z,predict,y)
+utility.matrixcfn(z, predict, y)
 
 #visualizzo predizione
 pose_name = np.unique(z)
-utility.test('C:\\Users\\pasquale\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg',model,pose_name)
+utility.test('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg',model,pose_name)
+utility.test_classificatore('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg', gnb, pose_name)
+utility.test_classificatore('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg', rfl, pose_name)
 
+
+utility.test('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg',model,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",rfl,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",gnb,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",classifierKNN,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",extra_clf,pose_name)
+
+utility.test('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg',model,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",rfl,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",gnb,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",classifierKNN,pose_name)
+utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",extra_clf,pose_name)

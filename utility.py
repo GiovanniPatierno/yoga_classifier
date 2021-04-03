@@ -3,9 +3,11 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 import seaborn as sns
 import cv2 as cv
+import extract_feature
+
 
 #visualizzo la confuzion matrix
-def matrixcfn(z,predict,y):
+def matrixcfn(z, predict,y):
     matrix = confusion_matrix(y.argmax(axis=1), predict)
     target_labels = np.unique(z)
     plt.figure(figsize=(6, 4))
@@ -23,7 +25,7 @@ def matrixcfn(z,predict,y):
     plt.show()
 
 #visualizzo predizione
-def test(imgpath, model, pose_names):     #'immagini per test/golden.jpg', Resnet50_model, dog_names)
+def test(imgpath, model, pose_names):
     img = cv.imread(imgpath)
     imgClean = img
     imgClean = cv.resize(img, (500, 500))
@@ -34,7 +36,18 @@ def test(imgpath, model, pose_names):     #'immagini per test/golden.jpg', Resne
 
     pred = model.predict(img)
     pred = np.argmax(pred,-1)
-    cv.putText(img, 'Predizione razza: {}'.format(pose_names[pred]), (20, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8,(255, 255, 0), 2)
+    cv.putText(imgClean, 'Predizione posizione: {}'.format(pose_names[pred]), (20, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8,(255, 255, 0), 2)
     cv.imshow("Predizione ", imgClean)
+    print("la predizione è': ", pose_names[pred])
+    cv.waitKey(0)
+
+def test_classificatore(imgpath, classificatore, pose_names):
+    img = cv.imread(imgpath)
+    img = cv.resize(img, (500, 500))
+    glob_fe = extract_feature.extract(img)
+
+    pred =  classificatore.predict(glob_fe.reshape(1, -1))[0]
+    cv.putText(img, 'Predizione posizione: {}'.format(pose_names[pred]), (20, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8,(255, 255, 0), 2)
+    cv.imshow("Predizione ", img)
     print("la predizione è': ", pose_names[pred])
     cv.waitKey(0)
