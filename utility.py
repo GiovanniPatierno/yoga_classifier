@@ -36,7 +36,8 @@ def test(imgpath, model, pose_names):
 
     pred = model.predict(img)
     pred = np.argmax(pred,-1)
-    cv.putText(imgClean, 'Predizione posizione: {}'.format(pose_names[pred]), (20, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8,(255, 255, 0), 2)
+    cv.putText(imgClean, 'Predizione posizione: {}'.format(pose_names[pred]), (20, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
+    cv.putText(imgClean, 'predizione del CNN', (20, 60), cv.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
     cv.imshow("Predizione ", imgClean)
     print("la predizione è': ", pose_names[pred])
     cv.waitKey(0)
@@ -48,6 +49,9 @@ def test_classificatore(imgpath, classificatore, pose_names):
 
     pred =  classificatore.predict(glob_fe.reshape(1, -1))[0]
     cv.putText(img, 'Predizione posizione: {}'.format(pose_names[pred]), (20, 30), cv.FONT_HERSHEY_SIMPLEX, 0.8,(255, 255, 0), 2)
+    cv.putText(img, 'Classificatore: {}'.format(classificatore), (20, 60), cv.FONT_HERSHEY_SIMPLEX, 0.8,(255, 255, 0), 2)
     cv.imshow("Predizione ", img)
     print("la predizione è': ", pose_names[pred])
     cv.waitKey(0)
+
+

@@ -23,6 +23,13 @@ import Cnn_function
 from keras.utils.np_utils import to_categorical
 import utility
 
+def predizioni(imgpath):
+    utility.test(imgpath,model,pose_name)
+    utility.test_classificatore(imgpath,gnb,pose_name )
+    utility.test_classificatore(imgpath, classifierKNN, pose_name)
+    utility.test_classificatore(imgpath, extra_clf, pose_name)
+    utility.test_classificatore(imgpath, rfl, pose_name)
+    utility.test_classificatore(imgpath, svclassifier, pose_name)
 
 
 TRAIN_DIR = "C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\training_set"
@@ -56,7 +63,6 @@ z = y
 
 'normalizzazione'
 X = np.array(X)
-#y = np.array(y)
 X = X/255
 
 #Label Encoding
@@ -70,7 +76,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 gnb = GaussianNB()                 #
 gnb.fit(X_train, y_train)          #
 y_pred = gnb.predict(X_test)       #
-print(X_test.shape)
 ####################################
 
 #creo il modello ExtraTreeClassifier e lo addestro()
@@ -84,9 +89,9 @@ rfl.fit(X_train, y_train)
 rfl_pred = rfl.predict(X_test)
 
 #modello SVC
-#svclassifier = SVC(kernel='linear')
-#svclassifier.fit(X_train, y_train)
-#svclassifier_pred = svclassifier.predict(X_test)
+svclassifier = SVC(kernel='linear')
+svclassifier.fit(X_train, y_train)
+svclassifier_pred = svclassifier.predict(X_test)
 
 #KNN
 classifierKNN = KNeighborsClassifier(n_neighbors=5)
@@ -98,7 +103,7 @@ print("Accuracy GausianN:",metrics.accuracy_score(y_test, y_pred))
 print("Accuracy RFL:",metrics.accuracy_score(y_test, rfl_pred))
 print("Accuracy Extra:",metrics.accuracy_score(y_test, extra_clf_pred))
 print("Accuracy KNN:",metrics.accuracy_score(y_test, KNN_pred))
-#print("Accuracy SVC:",metrics.accuracy_score(y_test, svclassifier_pred))
+print("Accuracy SVC:",metrics.accuracy_score(y_test, svclassifier_pred))
 
 
 
@@ -123,19 +128,13 @@ utility.matrixcfn(z, predict, y)
 
 #visualizzo predizione
 pose_name = np.unique(z)
-utility.test('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg',model,pose_name)
-utility.test_classificatore('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg', gnb, pose_name)
-utility.test_classificatore('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\test_set\\plank\\File2.jpg', rfl, pose_name)
-
-
-utility.test('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg',model,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",rfl,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",gnb,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",classifierKNN,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg",extra_clf,pose_name)
-
-utility.test('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg',model,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",rfl,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",gnb,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",classifierKNN,pose_name)
-utility.test_classificatore("C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg",extra_clf,pose_name)
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\DownwardFacingDogPose.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\forwardfoldhp2_292_37503_cmyk.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\forwardfoldhp2_292_37503_cmyk.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\PlankPose.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\Tree.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\trianglepose-5c5b4f3346e0fb0001105d35.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\Warrior2.jpg')
+predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\WARRIOR-1-hero.jpg')
