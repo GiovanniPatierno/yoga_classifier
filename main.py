@@ -1,24 +1,16 @@
 import cv2
-from glob import glob
 import numpy as np
 import tensorflow as tf
-from matplotlib import pyplot as plt
-from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
+from sklearn.preprocessing import  LabelEncoder
 from tqdm import tqdm
 import  os
-import sklearn
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier
 from sklearn import metrics
-import dask.array as da
-import pandas as pd
 import extract_feature
-import data_augmentation
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
-import seaborn as sns
 import Cnn_function
 from keras.utils.np_utils import to_categorical
 import utility
@@ -72,11 +64,11 @@ y = le.fit_transform(y)
 # split il training e il test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
-#################################### Modello Gaussiano
-gnb = GaussianNB()                 #
-gnb.fit(X_train, y_train)          #
-y_pred = gnb.predict(X_test)       #
-####################################
+# Creo ilModello Gaussiano e lo addestro
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+y_pred = gnb.predict(X_test)
+
 
 #creo il modello ExtraTreeClassifier e lo addestro()
 extra_clf = ExtraTreesClassifier()
@@ -128,13 +120,10 @@ utility.matrixcfn(z, predict, y)
 
 #visualizzo predizione
 pose_name = np.unique(z)
-predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\BRIDGE-POSE-1.jpg')
-predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\ChildsPose.jpg')
+
 predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\DownwardFacingDogPose.jpg')
 predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\forwardfoldhp2_292_37503_cmyk.jpg')
-predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\forwardfoldhp2_292_37503_cmyk.jpg')
 predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\PlankPose.jpg')
-predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\Tree.jpg')
 predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\trianglepose-5c5b4f3346e0fb0001105d35.jpg')
 predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\Warrior2.jpg')
 predizioni('C:\\Users\\Gianpaolo Patierno\\PycharmProjects\\yoga_classifier\\datasets_file\\predizioni\\WARRIOR-1-hero.jpg')

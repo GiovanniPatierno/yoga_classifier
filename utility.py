@@ -6,7 +6,7 @@ import cv2 as cv
 import extract_feature
 
 
-#visualizzo la confuzion matrix
+#visualizzo la confusion matrix
 def matrixcfn(z, predict,y):
     matrix = confusion_matrix(y.argmax(axis=1), predict)
     target_labels = np.unique(z)
@@ -24,7 +24,7 @@ def matrixcfn(z, predict,y):
     plt.xlabel('Predicted Label')
     plt.show()
 
-#visualizzo predizione
+#funzione creata per la visualizzazione delle predizioni riguardanti i classificatori
 def test(imgpath, model, pose_names):
     img = cv.imread(imgpath)
     imgClean = img
@@ -42,6 +42,7 @@ def test(imgpath, model, pose_names):
     print("la predizione è': ", pose_names[pred])
     cv.waitKey(0)
 
+#funzione per la visualizzazioni delle predizioni fatte dalla CNN
 def test_classificatore(imgpath, classificatore, pose_names):
     img = cv.imread(imgpath)
     img = cv.resize(img, (500, 500))

@@ -1,11 +1,6 @@
 import cv2
 import mahotas
 import numpy as np
-from matplotlib.pyplot import hist
-from matplotlib import pyplot as plt
-import seaborn as sns
-import pandas as pd
-from sklearn.metrics import confusion_matrix
 
 
 def extract(img):
