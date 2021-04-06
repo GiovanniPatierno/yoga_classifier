@@ -1,4 +1,4 @@
-# yoga_classifier
+# Yoga Classifier
 
 Il progetto è composto da 4 file:
 
