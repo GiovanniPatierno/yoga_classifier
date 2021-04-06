@@ -19,6 +19,6 @@ N.B Al momento dell'esecuzione il classificatore SVM potrebbe richiedere alcuni 
 
 2.  Inserirlo nella cartella dataset_file
 
-3. Inserire il path assoluto del training e del test set, nella variabile TRAIN_DIR e TEST_DIR(riga 35 e 36)
+3. Inserire il path assoluto del training e del test set, nella variabile TRAIN_DIR e TEST_DIR(riga 27 e 28)
 
 4. Modificare il path assoluto per eseguire le predizioni
